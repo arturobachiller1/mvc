@@ -36,6 +36,50 @@ class UserController
     public function delete($arguments)
     {
         $id = $arguments[0];
+        $user = User::find($id);
+        $user->delete();
+
+        header('Location: /user');
         echo "Borrar el usuario $id";        
+    }
+
+    public function create(){
+        include('../views/user/Create.php');
+    }
+
+    public function store(){
+        //crear objeto
+        $user = new User;
+        $user->name = $_POST['name'];
+        $user->surname = $_POST['surname'];
+        $user->email = $_POST['email'];
+        $user->birthdate = $_POST['birthdate'];
+        $user->insert();
+        //redirigir a la pagina principal 
+        header('Location: /user/index');
+    }
+
+    public function edit($arguments){
+        $id = $arguments[0];
+        $user = User::find($id);
+
+        include('../views/user/edit.php');
+        
+    }
+
+
+    public function update($arguments){
+        $id = $arguments[0];
+
+        //crear objeto
+        $user = User::find($id);
+
+        $user->name = $_POST['name'];
+        $user->surname = $_POST['surname'];
+        $user->email = $_POST['email'];
+        $user->birthdate = $_POST['birthdate'];
+        $user->save();
+        //redirigir a la pagina principal 
+        header('Location: /user/index');
     }
 }
